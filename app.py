@@ -3,11 +3,18 @@ import joblib
 import spacy
 from textblob import TextBlob
 
+import subprocess
+import sys
+
 @st.cache_resource
 def load_artifacts():
     model = joblib.load('sentiment_model.pkl')
     aspect_keywords = joblib.load('aspect_keywords.pkl')
-    nlp = spacy.load('en_core_web_sm')
+    try:
+        nlp = spacy.load('en_core_web_sm')
+    except OSError:
+        subprocess.run([sys.executable, "-m", "spacy", "download", "en_core_web_sm"])
+        nlp = spacy.load('en_core_web_sm')
     return model, aspect_keywords, nlp
 
 pipeline, aspect_keywords, nlp = load_artifacts()
