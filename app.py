@@ -3,8 +3,6 @@ import joblib
 import spacy
 from textblob import TextBlob
 
-import subprocess
-import sys
 @st.cache_resource
 def load_artifacts():
     model = joblib.load('sentiment_model.pkl')
